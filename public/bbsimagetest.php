@@ -43,6 +43,11 @@ $select_sth->execute();
 
 <head>
   <title>画像投稿できる掲示板</title>
+  <style>
+    body {
+      background-color: #f5f5f5; /* 薄いグレーの背景色を設定 */
+    }
+  </style>
 </head>
 
 <!-- フォームのPOST先はこのファイル自身にする -->
@@ -57,7 +62,7 @@ $select_sth->execute();
 <hr>
 
 <?php foreach($select_sth as $entry): ?>
-  <dl style="margin-bottom: 1em; padding: 1em; border-radius: 8px; box-shadow: 0 6px 12    px rgba(0,0,0,0.1);">
+  <dl style="margin-bottom: 1em; padding: 1em; border-radius: 8px; box-shadow: 0 6px 12px rgba(0,0,0,0.1); background-color: #f9f9f9;">
     <dt>ID</dt>
     <dd><?= $entry['id'] ?></dd>
     <dt>日時</dt>
