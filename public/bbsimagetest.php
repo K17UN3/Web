@@ -54,16 +54,6 @@ $select_sth->execute();
   <button type="submit">送信</button>
 </form>
 
-<script>
-function checkFileSize() {
-  const fileInput = document.getElementById('imageInput');
-
-  function resetFileInput() {
-    document.getElementById('imageInput').value = '';
-  }
-}
-</script>
-
 <hr>
 
 <?php foreach($select_sth as $entry): ?>
