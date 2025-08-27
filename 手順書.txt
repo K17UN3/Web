@@ -28,6 +28,12 @@
 ５．vim public/[ファイル名] → 今回はbbsimagetest.php
 
 
+（Ctrl+Cで停止してから）
+【docker compose build で再構築】
+
+【docker compose up でもう一度起動】
+
+
 【MySQLのテーブルの作成】
 １．docker compose exec mysql mysql [DB名] → 今回はexample_db
 
@@ -37,3 +43,4 @@ CREATE TABLE `bbs_entries` (
     `body` TEXT NOT NULL,
     `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP
 );
+
