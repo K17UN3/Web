@@ -57,7 +57,7 @@ $select_sth->execute();
 <hr>
 
 <?php foreach($select_sth as $entry): ?>
-  <dl style="margin-bottom: 1em; padding-bottom: 1em; border-bottom: 1px solid #ccc;">
+  <dl style="margin-bottom: 1em; padding: 1em; border-radius: 8px; box-shadow: 0 6px 12    px rgba(0,0,0,0.1);">
     <dt>ID</dt>
     <dd><?= $entry['id'] ?></dd>
     <dt>日時</dt>
