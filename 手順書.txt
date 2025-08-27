@@ -1,4 +1,4 @@
-【Docker インストール】
+【Dockerのインストール】
 １．sudo yum install -y docker
 
 ２．sudo systemctl start docker
@@ -6,16 +6,16 @@
 ３．sudo usermod -a -G docker ec2-user
 
 
-【Docker Compose インストール】
-１．	sudo mkdir -p /usr/local/lib/docker/cli-plugins/
+【Docker Composeのインストール】
+１．sudo mkdir -p /usr/local/lib/docker/cli-plugins/
 
-２．	sudo curl -SL https://github.com/docker/compose/releases/download/v2.36.0/docker-compose-linux-x86_64 -o /usr/local/lib/docker/cli-plugins/docker-compose
+２．sudo curl -SL https://github.com/docker/compose/releases/download/v2.36.0/docker-compose-linux-x86_64 -o /usr/local/lib/docker/cli-plugins/docker-compose
 
-３．	sudo chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
+３．sudo chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
 
 
 【必要なファイル】
-１．	mkdir dockertest
+１．mkdir dockertest
 （ディレクトリを作成してcd dockertestで入る）
 
 ２．vim compose.yml
@@ -29,11 +29,12 @@
 
 
 【MySQLのテーブルの作成】
-１．	docker compose exec mysql mysql [DB名] → 今回はexample_db
+１．docker compose exec mysql mysql [DB名] → 今回はexample_db
 
-２．	テーブル作成（書き方）
+２．テーブル作成
 CREATE TABLE `bbs_entries` (
     `id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `body` TEXT NOT NULL,
     `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP
 );
+
