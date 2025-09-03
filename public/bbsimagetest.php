@@ -36,8 +36,18 @@ if (isset($_POST['body'])) {
   return;
 }
 
-// いままで保存してきたものを取得
-$select_sth = $dbh->prepare('SELECT * FROM bbs_entries ORDER BY created_at DESC');
+// フィルタリング条件を決定
+$filter = isset($_GET['filter']) ? $_GET['filter'] : 'all';
+$sql = 'SELECT * FROM bbs_entries';
+if ($filter === 'with_image') {
+    $sql .= ' WHERE image_filename IS NOT NULL';
+} elseif ($filter === 'without_image') {
+    $sql .= ' WHERE image_filename IS NULL';
+}
+$sql .= ' ORDER BY created_at DESC';
+
+// フィルタリングされたデータを取得
+$select_sth = $dbh->prepare($sql);
 $select_sth->execute();
 ?>
 
@@ -46,6 +56,26 @@ $select_sth->execute();
   <style>
     body {
       background-color: #f5f5f5; /* 薄いグレーの背景色を設定 */
+    }
+    .filter-links {
+      margin-bottom: 1em;
+      text-align: center; /* リンクを中央揃えにする */
+    }
+    .filter-links a {
+      display: inline-block;
+      padding: 0.5em 1em;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      color: #333;
+      text-decoration: none;
+      background-color: #fff;
+      cursor: pointer;
+    }
+    .filter-links a:hover {
+      background-color: #f0f0f0;
+    }
+    .filter-links a.active {
+      background-color: #ddd;
     }
   </style>
 </head>
@@ -60,6 +90,12 @@ $select_sth->execute();
 </form>
 
 <hr>
+
+<div class="filter-links">
+    <a href="./bbsimagetest.php" class="<?= $filter === 'all' ? 'active' : '' ?>">すべて</a>
+    <a href="./bbsimagetest.php?filter=with_image" class="<?= $filter === 'with_image' ? 'active' : '' ?>">画像あり</a>
+    <a href="./bbsimagetest.php?filter=without_image" class="<?= $filter === 'without_image' ? 'active' : '' ?>">画像なし</a>
+</div>
 
 <?php foreach($select_sth as $entry): ?>
   <dl style="margin-bottom: 1em; padding: 1em; border-radius: 8px; box-shadow: 0 6px 12px rgba(0,0,0,0.1); background-color: #f9f9f9;">
