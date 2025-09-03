@@ -11,7 +11,6 @@ if (isset($_POST['body'])) {
       // アップロードされたものが画像ではなかった場合
       header("HTTP/1.1 302 Found");
       header("Location: ./bbsimagetest.php");
-      return;
     }
 
     // 元のファイル名から拡張子を取得
@@ -20,42 +19,7 @@ if (isset($_POST['body'])) {
     // 新しいファイル名を決める。他の投稿の画像ファイルと重複しないように時間+乱数で決める。
     $image_filename = strval(time()) . bin2hex(random_bytes(25)) . '.' . $extension;
     $filepath =  '/var/www/upload/image/' . $image_filename;
-
-    // 画像ファイルをメモリに読み込む
-    $image_content = file_get_contents($tmp_name);
-    $image = imagecreatefromstring($image_content);
-    if ($image !== false) {
-      // 画像のサイズを取得
-      $original_width = imagesx($image);
-      $original_height = imagesy($image);
-
-      // 5MB以下のファイルかチェック
-      if ($_FILES['image']['size'] > 5 * 1024 * 1024) {
-        // 縮小処理
-        $max_size = 800; // 縮小後の最大サイズ（長辺）
-        if ($original_width > $original_height) {
-          $new_width = $max_size;
-          $new_height = floor($original_height * ($max_size / $original_width));
-        } else {
-          $new_height = $max_size;
-          $new_width = floor($original_width * ($max_size / $original_height));
-        }
-        
-        $resized_image = imagecreatetruecolor($new_width, $new_height);
-        imagecopyresampled($resized_image, $image, 0, 0, 0, 0, $new_width, $new_height, $original_width, $original_height);
-        
-        // 新しい画像をファイルに保存
-        imagejpeg($resized_image, $filepath, 80); // 品質80で保存
-        
-        imagedestroy($resized_image);
-        imagedestroy($image);
-
-      } else {
-        // 5MB以下の場合はそのまま保存（ファイル名をJPGにする）
-        imagejpeg($image, $filepath, 90);
-        imagedestroy($image);
-      }
-    }
+    move_uploaded_file($_FILES['image']['tmp_name'], $filepath);
   }
 
   // insertする
@@ -157,6 +121,10 @@ document.addEventListener("DOMContentLoaded", () => {
   imageInput.addEventListener("change", () => {
     if (imageInput.files.length < 1) {
     return;
+  }
+  if (imageInput.files[0].size > 5 * 1024 * 1024) {
+    alert("5MB以下のファイルを選択してください。");
+    imageInput.value = "";
   }
  });
 });
